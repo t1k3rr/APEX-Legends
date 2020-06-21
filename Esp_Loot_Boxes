@@ -1,0 +1,28 @@
+uint64_t obj_model_data = READ(Entity + 0x30);
+string model_name = string();
+rd_s(obj_model_data + 20, &model_name, 24);
+ 
+if (strstr(model_name.c_str(), ("bin_01_loba")))
+{
+    if (dist < lootbox_max_dist)
+    {
+        char LBox[64];
+        int open_check = readmem<int>(LEnt + 0xC4);
+        int entread = readmem<int>(LEnt);
+        if (entread == -1515265024)
+        {
+            if (open_check != 0)
+            {
+                sprintf(LBox, ("[Opened] LootBox (%s)"), distance.c_str());
+                DrawFilledRect(scr.x - (strlen(LBox) * 7 / 2) - 1, scr.y, strlen(LBox) * 7 + 6, 15, &Col.red, 8);
+                DrawNewText(scr.x - (strlen(LBox) * 7 / 2) + 3, scr.y, &Col.SilverWhite, LBox);
+            }
+            else
+            {
+                sprintf(LBox, ("[Unopened] LootBox (%s)"), distance.c_str());
+                DrawFilledRect(scr.x - (strlen(LBox) * 7 / 2) - 1, scr.y, strlen(LBox) * 7 + 6, 15, &Col.darkgreen3, 8);
+                DrawNewText(scr.x - (strlen(LBox) * 7 / 2) + 3, scr.y, &Col.SilverWhite, LBox);
+            }
+        }
+    }
+}
